@@ -13,7 +13,7 @@ def get_books():
 def add_books():
     return add_books(request), 201
 
-@books_bp.route('/books/delete', methods=['DELETE'])
+@books_bp.route('/books', methods=['DELETE'])
 def delete_books():
     return delete_books(request), 200
 
