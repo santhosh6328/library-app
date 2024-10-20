@@ -2,8 +2,8 @@ from datetime import date
 
 
 def calculate_fee(issue_date, return_date):
-   delta = (return_date - issue_date).days
-   return delta * 10  # Assuming Rs.10 rent per day
+   # charging 1 re per second
+   return return_date - issue_date
 
 
 def check_outstanding_debt(member):
