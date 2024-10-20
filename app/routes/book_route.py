@@ -37,3 +37,20 @@ def add_books():
     db.session.add(new_book)
     db.session.commit()
     return jsonify({"message": "Book added!"}), 201
+
+@books_bp.route('/books/delete', methods=['DELETE'])
+def delete_books():
+    data = request.get_json()
+    book_ids = data.get('book_ids', [])
+
+    books_to_delete = Book.query.filter(Book.id.in_(book_ids)).all()
+
+    if not books_to_delete:
+        return jsonify({"message": "No books found to delete"}), 404
+
+    for book in books_to_delete:
+        db.session.delete(book)
+
+    db.session.commit()
+
+    return jsonify({"message": "Books deleted successfully"}), 200
