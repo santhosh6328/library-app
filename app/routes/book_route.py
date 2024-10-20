@@ -54,3 +54,23 @@ def delete_books():
     db.session.commit()
 
     return jsonify({"message": "Books deleted successfully"}), 200
+
+@books_bp.route('/books/search', methods=['GET'])
+def search_books():
+    # Get the query parameters
+    title = request.args.get('title', None)
+    author = request.args.get('author', None)
+
+    query = Book.query
+
+    if title:
+        query = query.filter(Book.title.ilike(f"%{title}%"))  # Search books by title (case-insensitive)
+    if author:
+        query = query.filter(Book.authors.ilike(f"%{author}%"))  # Search books by author (case-insensitive)
+
+    books = query.all()
+
+    if not books:
+        return jsonify({"message": "No books found matching the criteria"}), 404
+
+    return jsonify([book.to_dict() for book in books]), 200
