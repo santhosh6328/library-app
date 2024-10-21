@@ -11,10 +11,12 @@ def create_app():
     db.init_app(app)
     Migrate(app, db)
 
+    from app.routes.home_route import home_bp
     from app.routes.book_route import books_bp
     from app.routes.member_route import members_bp
     from app.routes.transaction_route import transactions_bp
 
+    app.register_blueprint(home_bp)
     app.register_blueprint(books_bp)
     app.register_blueprint(members_bp)
     app.register_blueprint(transactions_bp)
